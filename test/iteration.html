@@ -35,6 +35,7 @@
  <div class="container">
      <h1 class="mt-4">JavaScript遍历性能测试</h1>
      <p>为了探究各种js遍历写法的性能，开发出方便测试工具，为了让你快速直观了解哪一种写法性能最好，选择一个最适合应用场景的写法。</p>
+     <p>以下各种遍历方法将遍历<code><b>1000000</b></code>次（一百万次）的耗时可以打开控制台查看。</p>
      <div class="section">
          <h4>普通for循环</h4>
          <p>普通for循环是最简单，使用频率最高的一种，写法有些繁杂，但性能却不弱。</p>
@@ -101,7 +102,7 @@
      </div>
 
      <h2>总结</h2>
-     <p>以上各种遍历方法将遍历100000次的耗时可以打开控制台查看，性能最好的依然是普通for循环，普通for循环写法上没有forEach、map之类的好写，但在追求
+     <p>性能最好的依然是普通for循环，普通for循环写法上没有forEach、map之类的好写，但在追求
      性能的情况下优先考虑这种，或者用普通for循环先把长度存起来效率最高。</p>
 
      <div class="donate-box">
@@ -119,7 +120,7 @@
 <script src="../static/lib/bootstrap-4.0.0/js/bootstrap.min.js"></script>
 <script>
   var arr = []
-  for (var i = 0; i < 100000; i++) {
+  for (var i = 0; i < 1000000; i++) {
     arr.push(i)
   }
   $('#standardFor').click(function () {
