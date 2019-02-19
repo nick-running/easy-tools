@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>iteration</title>
+    <link rel="stylesheet" href="../static/lib/bootstrap-4.0.0/css/bootstrap.min.css">
+    <style>
+        .section{
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #dcdee2;
+            border-radius: 4px;
+        }
+        .section>code{
+            display: block;
+            margin-bottom: 20px;
+        }
+        .donate-box{
+            margin: 40px;
+            text-align: center;
+        }
+        .donate-box>img{
+            width: 250px;
+            /*height: 250px;*/
+        }
+        #footer{
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8eaec;
+        }
+    </style>
+</head>
+<body>
+ <div class="container">
+     <h1 class="mt-4">JavaScript遍历性能测试</h1>
+     <p>为了探究各种js遍历写法的性能，开发出方便测试工具，为了让你快速直观了解哪一种写法性能最好，选择一个最适合应用场景的写法。</p>
+     <div class="section">
+         <h4>普通for循环</h4>
+         <p>普通for循环是最简单，使用频率最高的一种，写法有些繁杂，但性能却不弱。</p>
+         <code>
+             for(var i = 0; i < arr.length; i++) {<br/>
+             <br/>
+             }<br/>
+         </code>
+         <button class="btn btn-primary" id="standardFor">执行</button>
+     </div>
+
+     <div class="section">
+         <h4>优化版for循环</h4>
+         <p>这种for循环再遍历之前先把数组长度存起来，每次遍历不用再计算数组长度，从而提高遍历性能，数组较大时效果明显。</p>
+         <code>
+             for(i = 0,len=arr.length; i < len; i++) {<br/>
+             <br/>
+             }<br/>
+         </code>
+         <button class="btn btn-primary" id="betterFor">执行</button>
+     </div>
+
+     <div class="section">
+         <h4>foreach循环</h4>
+         <p>foreach循环使用频率较高，但性能还是比不上普通for循环</p>
+         <code>
+             arr.forEach(function(e){<br/>
+             <br/>
+             })<br/>
+         </code>
+         <button class="btn btn-primary" id="normalForeach">执行</button>
+     </div>
+
+     <div class="section">
+         <h4>for in循环</h4>
+         <p>for in循环使用的人也不少，在测试中，效率也不高</p>
+         <code>
+             for(i in arr) {<br/>
+            <br/>
+             }<br/>
+         </code>
+         <button class="btn btn-primary" id="forin">执行</button>
+     </div>
+
+     <div class="section">
+         <h4>map遍历</h4>
+         <p>map遍历也是用的比较广泛的，虽然用起来比较优雅，但实际效率还比不上foreach</p>
+         <code>
+             arr.map(function(n){<br/>
+             <br/>
+             })<br/>
+         </code>
+         <button class="btn btn-primary" id="normalMap">执行</button>
+     </div>
+     <div class="section">
+         <h4>for of遍历(需要ES6支持)</h4>
+         <p>这种方式是es6里面用到的，性能要好于for in，但仍然比不上普通for循环</p>
+         <code>
+             for(let value of arr) {<br/>
+             <br/>
+             })<br/>
+         </code>
+         <button class="btn btn-primary" id="forof">执行</button>
+     </div>
+
+     <h2>总结</h2>
+     <p>以上各种遍历方法将遍历100000次的耗时可以打开控制台查看，性能最好的依然是普通for循环，普通for循环写法上没有forEach、map之类的好写，但在追求
+     性能的情况下优先考虑这种，或者用普通for循环先把长度存起来效率最高。</p>
+
+     <div class="donate-box">
+         <p>如果觉得内容不错，也可以捐赠支持一下</p>
+         <img src="../static/images/wx_min.png">
+     </div>
+ </div>
+
+ <div id="footer">
+     <div class="container">
+         <div class="text-center">联系邮箱：tjtj54tj@163.com</div>
+     </div>
+ </div>
+<script src="../static/lib/jquery-3.3.1.slim.min.js"></script>
+<script src="../static/lib/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+<script>
+  var arr = []
+  for (var i = 0; i < 100000; i++) {
+    arr.push(i)
+  }
+  $('#standardFor').click(function () {
+    normalFor()
+  })
+  $('#betterFor').click(function () {
+    betterFor()
+  })
+  $('#normalForeach').click(function () {
+    normalForeach()
+  })
+  $('#forin').click(function () {
+    forin()
+  })
+  $('#normalMap').click(function () {
+    normalMap()
+  })
+  $('#forof').click(function () {
+    forof()
+  })
+
+  function normalFor() {
+    console.time("普通for循环");
+    for (var i = 0; i < arr.length; i++) {
+    }
+    console.timeEnd("普通for循环");
+  }
+
+  function betterFor() {
+    console.time("优化版for循环");
+    for (var i = 0, length = arr.length; i < length; i++) {
+    }
+    console.timeEnd("优化版for循环");
+  }
+  function normalForeach() {
+    console.time("foreach循环");
+    arr.forEach(function(n){
+    });
+    console.timeEnd("foreach循环");
+  }
+  function forin() {
+    console.time("for in循环");
+    for(i in arr){
+    }
+    console.timeEnd("for in循环");
+  }
+  function normalMap() {
+    console.time("map遍历");
+    arr.map(function(n){
+    })
+    console.timeEnd("map遍历");
+  }
+  function forof() {
+    console.time("for of遍历");
+    for(var value of arr) {
+    }
+    console.timeEnd("for of遍历");
+  }
+</script>
+</body>
+</html>
