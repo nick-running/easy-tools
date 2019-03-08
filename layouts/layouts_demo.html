@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>flex 布局,页面布局演示</title>
+    <link rel="stylesheet" href="../static/lib/bootstrap-4.0.0/css/bootstrap.min.css">
+</head>
+<style>
+    .demo-box{
+        /*padding: 10px;*/
+        /*border: 1px solid #dcdee2;*/
+        margin-bottom: 20px;
+    }
+    .header>a{
+        color: #fff;
+    }
+    .header>a:hover{
+        color: #007bff;
+    }
+    .demo-desc:before{
+        content: '说明：'
+    }
+
+    .layout-header-sidebar-content{
+        border: 1px solid #dcdee2;
+        margin-bottom: 10px;
+    }
+    .layout-header-sidebar-content>.header{
+        padding: 8px 15px;
+        background-color: #48b799;
+    }
+    .layout-header-sidebar-content>.layout-wrapper{
+        display: flex;
+        /*!*flex-direction: row;*! 默认就是row*/
+    }
+    .layout-header-sidebar-content>.layout-wrapper{
+        display: flex;
+        height: 400px;
+        /*!*flex-direction: row;*! 默认就是row*/
+    }
+    .layout-header-sidebar-content>.layout-wrapper>.layout-item{
+        flex: auto;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .layout-header-sidebar-content>.layout-wrapper>.layout-sidebar{
+        border-right: 1px solid #dcdee2;
+        flex: 0 0 240px;
+    }
+</style>
+<body>
+    <div class="container">
+        <h1 class="mt-4">
+            flex 布局,页面布局演示
+        </h1>
+        <p>flex布局作为H5的新布局方式，现在已被所有主流浏览器所支持，利用它实现页面复杂布局，比以往实现要简单得多。</p>
+        <p>以下主要以布局效果需求来讲解flex布局的属性应用。</p>
+        <div class="alert alert-danger" role="alert">
+            注意，以下说明部分只说明关键实现，一些呈现出的细节效果将不作解说，如容器内颜色和文字居中代码等。
+        </div>
+
+        <h4>页头+侧边栏+内容区布局</h4>
+        <p>采用这种方式的布局在后台管理应用较多，也有很多网站采用这种方式。</p>
+
+        <div class="demo-box">
+            <div class="layout-header-sidebar-content">
+                <div class="header">
+                    <a href="http://www.easy-skill.cn/">易技巧</a>
+                </div>
+                <div class="layout-wrapper">
+                    <div class="layout-item layout-sidebar">
+                        一整块侧栏区
+                    </div>
+                    <div class="layout-item layout-content">
+                        一整块内容区
+                    </div>
+                </div>
+            </div>
+            <p class="demo-desc">
+                上面布局的难点在于侧边栏是固定宽度，右侧自适应分配剩余宽度，布局外层使用<code>display: flex;</code>，
+                内部块使用<code>flex: auto;</code>，内部左侧块使用<code>flex: 0 0 240px;</code>，flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+            </p>
+        </div>
+    </div>
+</body>
+</html>
