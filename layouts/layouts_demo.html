@@ -12,11 +12,15 @@
         /*border: 1px solid #dcdee2;*/
         margin-bottom: 20px;
     }
+    h2>small{
+        color: grey;
+        font-size: 18px;
+    }
     .header>a{
         color: #fff;
     }
     .header>a:hover{
-        color: #007bff;
+        color: #808695;
     }
     .demo-desc:before{
         content: '说明：'
@@ -50,6 +54,10 @@
         border-right: 1px solid #dcdee2;
         flex: 0 0 240px;
     }
+    .layout-header-sidebar-content>.layout-wrapper>.layout-right-body{
+        border-left: 1px solid #dcdee2;
+        flex: 0 0 240px;
+    }
 </style>
 <body>
     <div class="container">
@@ -62,28 +70,57 @@
             注意，以下说明部分只说明关键实现，一些呈现出的细节效果将不作解说，如容器内颜色和文字居中代码等。
         </div>
 
-        <h4>页头+侧边栏+内容区布局</h4>
-        <p>采用这种方式的布局在后台管理应用较多，也有很多网站采用这种方式。</p>
-
+        <h2 class="mt-4 mb-4">横向布局方式 <small>主要以行的flex布局</small></h2>
+        <p>
+            横向布局方式在父容器使用 <code>flex:display;flex-direction:row;</code>，其中定义好
+            <code>flex:display;</code>不定义（不写）<code>flex-direction:row;</code>将会默认采用<code>flex-direction:row;</code>横向布局。
+        </p>
         <div class="demo-box">
+            <h4>页头+侧边栏+内容区布局</h4>
+            <p>采用这种方式的布局在后台管理应用较多，也有很多网站采用这种方式。</p>
             <div class="layout-header-sidebar-content">
                 <div class="header">
                     <a href="http://www.easy-skill.cn/">易技巧</a>
                 </div>
                 <div class="layout-wrapper">
                     <div class="layout-item layout-sidebar">
-                        一整块侧栏区
+                        一整块侧栏区（固定宽度）
                     </div>
                     <div class="layout-item layout-content">
-                        一整块内容区
+                        一整块内容区（自适应宽度）
                     </div>
                 </div>
             </div>
             <p class="demo-desc">
-                上面布局的难点在于侧边栏是固定宽度，右侧自适应分配剩余宽度，布局外层使用<code>display: flex;</code>，
+                上面布局的难点在于侧边栏是固定宽度，右侧自适应分配剩余宽度，容器外层使用<code>display: flex;</code>，
                 内部块使用<code>flex: auto;</code>，内部左侧块使用<code>flex: 0 0 240px;</code>，flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
             </p>
         </div>
+        <div class="demo-box">
+            <h4>页头+侧边栏+内容区+右侧内容区布局</h4>
+            <p>采用这种方式的布局的方式也有，不过不多。</p>
+            <div class="layout-header-sidebar-content">
+                <div class="header">
+                    <a href="http://www.easy-skill.cn/">易技巧</a>
+                </div>
+                <div class="layout-wrapper">
+                    <div class="layout-item layout-sidebar">
+                        一整块侧栏区（固定宽度）
+                    </div>
+                    <div class="layout-item layout-content">
+                        一整块内容区（自适应宽度）
+                    </div>
+                    <div class="layout-item layout-right-body">
+                        一整块右侧区（固定宽度）
+                    </div>
+                </div>
+            </div>
+            <p class="demo-desc">
+                上面布局的难点在于侧边栏是固定宽度，右侧自适应分配剩余宽度，容器外层使用<code>display: flex;</code>，
+                内部块使用<code>flex: auto;</code>，内部左侧块使用<code>flex: 0 0 240px;</code>，flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+            </p>
+        </div>
+        <h2 class="mt-4 mb-4">纵向布局方式 <small>主要以列的flex布局</small></h2>
     </div>
 </body>
 </html>
