@@ -30,6 +30,15 @@
         content: '说明：'
     }
 
+    .control-panel{
+        position: fixed;
+        background-color: #e4e4e4;
+        padding: 8px 15px;
+        border-radius: 4px;
+        right: 20px;
+        z-index: 1;
+    }
+
     /*layout-header-sidebar-content*/
 
     .layout-header-sidebar-content{
@@ -164,7 +173,19 @@
     }
 </style>
 <body>
-    <div class="container">
+    <div id="layoutMode" class="container">
+        <div class="control-panel d-none d-xl-block">
+            <h4>控制面板</h4>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                    <input type="radio" name="options" id="option2" value="fixed" autocomplete="off" checked> 固定宽
+                </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option1" value="auto" autocomplete="off"> 自适应
+                </label>
+            </div>
+        </div>
+
         <h1 class="mt-4">
             flex 布局,页面布局演示
         </h1>
@@ -327,5 +348,23 @@
             <!--</p>-->
         <!--</div>-->
     </div>
+    <script src="../static/lib/jquery-3.3.1.slim.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+    <script src="../static/lib/bootstrap-4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $('input[name="options"]').on('change', function (e) {
+          var mode = $(this).val()
+          switch (mode) {
+            case 'auto':
+              $('#layoutMode').removeClass('container')
+                .addClass('container-fluid')
+              break;
+            case 'fixed':
+              $('#layoutMode').removeClass('container-fluid')
+                .addClass('container')
+              break;
+          }
+        })
+    </script>
 </body>
 </html>
