@@ -12,6 +12,10 @@
         /*border: 1px solid #dcdee2;*/
         margin-bottom: 20px;
     }
+    h1>small{
+        color: grey;
+        font-size: 24px;
+    }
     h2>small{
         color: grey;
         font-size: 18px;
@@ -87,6 +91,76 @@
         border-top: 1px solid #dcdee2;
         flex: 0 0 60px;
         background-color: #f8f8f9;
+    }
+
+    .layout-complex1{
+        border: 1px solid #dcdee2;
+    }
+    .layout-complex1>.layout-wrapper{
+        display: flex;
+        height: 600px;
+    }
+    .layout-complex1>.layout-wrapper>.layout-item{
+        flex: auto;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        /*justify-content: center;*/
+        /*align-items: center;*/
+    }
+    .layout-complex1>.layout-wrapper>.layout-left-body{
+        flex: 0 0 300px;
+        border-right: 1px solid #dcdee2;
+    }
+    .layout-complex1>.layout-wrapper>.layout-content{
+        /*background-color: #d4d4d4;*/
+    }
+    .layout-complex1>.layout-wrapper>.layout-right-body{
+        flex: 0 0 300px;
+        border-left: 1px solid #dcdee2;
+
+        display: flex;
+        flex-direction: column;
+        /*align-items: center;*/
+        /*justify-content: center;*/
+    }
+
+    .vertical-divide-box{
+        flex-grow: 1; /*应用父级的放大比例*/
+        display: flex;
+        flex-direction: column;
+    }
+    .vertical-divide-box>.divide-box-section{
+        flex-grow: 1;
+
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e8eaec;
+    }
+
+    .custom-vertical-divide-box{
+        flex-grow: 1; /*应用父级的放大比例*/
+        display: flex;
+        flex-direction: column;
+    }
+    .custom-vertical-divide-box>.divide-box-section{
+        margin: 5px;
+        background-color: #e8eaec;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .custom-vertical-divide-box>.divide-box-section-header{
+        flex: 0 0 40px;
+    }
+    .custom-vertical-divide-box>.divide-box-section-auto{
+        flex: auto;
+    }
+    .custom-vertical-divide-box>.divide-box-section-footer{
+        flex: 0 0 240px;
     }
 </style>
 <body>
@@ -176,6 +250,46 @@
                             <div>动态</div>
                             <div>发现</div>
                             <div>我的</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="demo-desc">
+                上面布局只在父级布局加入<code>flex-direction:column;</code>其余和“页头+侧边栏+内容区布局”基本类似。
+            </p>
+        </div>
+
+        <hr>
+        <h1>扩展示例 <small>部分系统比较特殊的一些示例</small></h1>
+        <h2 class="mt-4 mb-4">某系统的可视化展示界面</h2>
+
+        <div class="demo-box">
+            <h4>复杂布局方式</h4>
+            <p>
+                这种界面在很多展示的大数据界面采用，布局分为几块大块，在每个大块中间又分为几个小块。
+            </p>
+            <div class="layout-complex1">
+                <div class="layout-wrapper">
+                    <div class="layout-item layout-left-body">
+                        <div class="vertical-divide-box">
+                            <div class="divide-box-section">
+                                垂直展示块1
+                            </div>
+                            <div class="divide-box-section">
+                                垂直展示块2
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layout-item layout-content">
+                        <div class="custom-vertical-divide-box">
+                            <div class="divide-box-section divide-box-section-header">这是一个固定高度的块</div>
+                            <div class="divide-box-section divide-box-section-auto">这块区域宽高自动适配</div>
+                            <div class="divide-box-section divide-box-section-footer">宽度适配，高度固定</div>
+                        </div>
+                    </div>
+                    <div class="layout-item layout-right-body">
+                        <div style="flex-grow: 1;display:flex; align-items:center;justify-content:center;margin: 5px; background-color: #e8eaec">
+                            一整块内容区（自适应高度）
                         </div>
                     </div>
                 </div>
