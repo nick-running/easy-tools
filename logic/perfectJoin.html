@@ -11,7 +11,12 @@
 <script>
     let timer = {
       dateStrToDate(dateStr){
-        if (dateStr.indexOf('上午') !== -1) {
+        // ant date format 2019-03-17 凌晨01:22 || 2019-03-17 上午07:22 || 2019-03-17 下午03:22
+
+
+        if (dateStr.indexOf('凌晨') !== -1) {
+          dateStr = dateStr.replace('凌晨', '');
+        }else if (dateStr.indexOf('上午') !== -1) {
           dateStr = dateStr.replace('上午', 'AM');
         }else if (dateStr.indexOf('下午') !== -1) {
           dateStr = dateStr.replace('下午', 'PM');
@@ -21,7 +26,7 @@
       }
     }
     // let m = moment('2019-03-17 PM3:22', 'YYYY-MM-DD AHH:mm').format('YYYY-MM-DD HH:mm')
-    let date = timer.dateStrToDate('2019-03-17 下午3:22')
+    let date = timer.dateStrToDate('2019-03-17 凌晨01:22')
     console.log(`date is: ${JSON.stringify(moment(date).format('YYYY-MM-DD HH:mm'))}`)
     // console.log(`m is: ${JSON.stringify(m)}`)
     let data = {
