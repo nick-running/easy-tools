@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>easy data visual</title>
+    <link rel="stylesheet" href="../static/lib/bootstrap-4.0.0/css/bootstrap.min.css">
+    <style>
+        .layout-box{
+            height: 100vh;
+            display: flex;
+        }
+        .layout-box>.layout-left-panel{
+            flex: 0 0 300px;
+            border-right: 1px solid #e4e4e4;
+        }
+        .layout-box>.layout-center-panel{
+            flex: auto;
+            display: flex;
+        }
+        .layout-box>.layout-right-panel{
+            flex: 0 0 250px;
+            border-left: 1px solid #e4e4e4;
+        }
+        .demo-panel{
+            flex: auto;
+            margin: 15px;
+            border: 1px solid #e4e4e4;
+            display: flex;
+        }
+        .demo-panel>.app{
+            flex: auto;
+            display: flex;
+            padding: 10px;
+        }
+        .attr-panel{
+            padding: 15px;
+        }
+        .dynamic-layout-item{
+            padding: 8px 15px;
+            border: 1px solid #5cadff;
+            cursor: move;
+        }
+        .widget-box>.widget-item{
+            padding: 8px 15px;
+            border: 1px solid #5cadff;
+            margin-top: -1px;
+            cursor: move;
+        }
+        .dynamic-layout{
+            flex: auto;
+            display: flex;
+            border: 1px solid #e8eaec;
+            overflow: hidden;
+        }
+        .dynamic-layout>div{
+            flex: auto;
+        }
+        .dynamic-layout:hover{
+            border: 1px solid #5cadff;
+        }
+        .selectable{
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .selectable:hover{
+            border: 1px solid #5cadff;
+        }
+
+        .selected{
+            border: 1px solid #2d8cf0;
+        }
+
+        .dynamic-layout-item {
+            -moz-user-select:none;
+            -webkit-user-select:none;
+            user-select:none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="layout-box">
+    <div class="layout-left-panel">
+        <div class="attr-panel">
+            <h4>模块配置</h4>
+            <div class="dynamic-layout-item"
+                 @dragstart="startDrag($event, 'dynamicLayoutItem')" draggable="true">动态布局</div>
+            <hr>
+            <div class="widget-box">
+                <div class="widget-item">当前流量top10</div>
+                <div class="widget-item">当前协议top10</div>
+                <div class="widget-item">当前趋势</div>
+                <div class="widget-item">预警列表</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout-center-panel">
+        <div class="demo-panel">
+            <div class="app">
+                <dynamic-layout>
+                    <dynamic-layout style="flex: 0 0 20%">
+                        <div>c1r1</div>
+                        <div>c1r2</div>
+                    </dynamic-layout>
+                    <dynamic-layout>
+                        <div style="flex: 0 0 50px">c2r1</div>
+                        <div>c2r2</div>
+                        <div style="flex: 0 0 400px">c2r3</div>
+                    </dynamic-layout>
+                    <dynamic-layout style="flex: 0 0 400px">
+                        <div>c3r1</div>
+                        <div>c3r2</div>
+                    </dynamic-layout>
+                </dynamic-layout>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout-right-panel">
+        <div class="attr-panel">
+            <h4>属性配置</h4>
+
+        </div>
+    </div>
+</div>
+<script src="../static/lib/jquery-3.3.1.slim.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+<script src="../static/lib/bootstrap-4.0.0/js/bootstrap.bundle.min.js"></script>
+<script src="../static/lib/vue.js"></script>
+<script src="../components/dynamicLayout.js"></script>
+<script src="../static/js/easy-data-v.js"></script>
+<script>
+  function allowDrop(event) {
+    event.preventDefault();
+  }
+</script>
+</body>
+</html>
