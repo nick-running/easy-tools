@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>DIV距离，鼠标距离</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="../static/lib/bootstrap-4.0.0/css/bootstrap.min.css">
+	<style>
+		.free-box{
+			/*width: 200px;*/
+			/*height: 150px;*/
+			border: 10px solid blue;
+			position: absolute;
+			left: 400px;
+			top: 200px;
+			box-shadow: 0 10px 20px rgb(111, 111, 129);
+		}
+		.natural-box{
+			display: inline-block;
+			width: 300px;
+			height: 200px;
+			border: 10px solid red;
+		}
+		.box{
+			background-color: #fff;
+		}
+		.box>.title{
+			padding: 8px 15px;
+			background-color: lightgrey;
+		}
+		.box>.content{
+			padding: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="ruler-x"></div>
+		<div class="ruler-y"></div>
+		<div class="free-box box" id="freeBox">
+			<div class="title">自由盒子，点击拖动</div>
+			<div class="content">
+				<div>
+					对应父容器的左边距:
+					<div>
+						obj.offsetLeft：<span>{{freeBox.offsetLeft}}</span>
+					</div>
+				</div>
+				<div>
+					对应父容器的上边距:
+					<div>
+						obj.offsetTop：<span>{{freeBox.offsetTop}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<h1 class="mt-4">演示盒子获取位置距离的各种方式</h1>
+			<p>本演示示例中主要有自由盒子和容器内盒子两种。</p>
+			<h2>自由盒子</h2>
+			<p>自由盒子表示它的位置是脱离文档流，display设置为absolute，标题加入事件鼠标拖动，拖动到任意位置，可以点击各种方法来获取具体位置。</p>
+			<h2>容器内位置</h2>
+			<p>容器内位置获取需求有时也会使用得到，点击各种方法来获取容器内div的具体位置。</p>
+			<p>点击下面内容文字可以编辑以观察容器内盒子的位置变化。</p>
+			<div @input="syncNaturalBoxDistanceInfo" class="new-wrapper" contenteditable="true">
+				一些文字在这里占个位，占多个位，再占几个位置，
+				<div class="natural-box box" id="naturalBox">
+					<div class="title">容器内盒子</div>
+					<div class="content">
+						<div>
+							对应父容器的左边距:
+							<div>
+								obj.offsetLeft：<span>{{naturalBox.offsetLeft}}</span>
+							</div>
+						</div>
+						<div>
+							对应父容器的上边距:
+							<div>
+								obj.offsetTop：<span>{{naturalBox.offsetTop}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				div后面的一些文字
+			</div>
+		</div>
+	</div>
+	<script src="../static/lib/vue/vue.min.js"></script>
+	<script>
+      let app = new Vue({
+        el: '#app',
+        data: {
+          freeBox: {
+            offsetLeft: '',
+            offsetTop: '',
+          },
+          naturalBox: {
+            offsetLeft: '',
+            offsetTop: '',
+          },
+          message: 'Hello Vue!'
+        },
+        methods: {
+			getOffsetDistance(el){
+			  return {
+	            offsetTop: el.offsetTop,
+	            offsetLeft: el.offsetLeft,
+			  }
+			},
+          syncFreeBoxDistanceInfo(){
+            let box = document.getElementById('freeBox')
+            let info = this.getOffsetDistance(box)
+			this.freeBox.offsetLeft = info.offsetLeft
+			this.freeBox.offsetTop = info.offsetTop
+          },
+          syncNaturalBoxDistanceInfo(){
+            let box = document.getElementById('naturalBox')
+            let info = this.getOffsetDistance(box)
+			this.naturalBox.offsetLeft = info.offsetLeft
+			this.naturalBox.offsetTop = info.offsetTop
+          }
+        },
+        mounted: function () {
+          this.syncFreeBoxDistanceInfo()
+          this.syncNaturalBoxDistanceInfo()
+          let freeBox = document.getElementById('freeBox')
+          freeBox.addEventListener('ondragstart', ev=>{
+            console.log('ev is: ', ev)
+          })
+        }
+      })
+      // console.log('freeBox.offsetTop is: ', JSON.stringify(freeBox.offsetTop))
+	</script>
+</body>
+</html>

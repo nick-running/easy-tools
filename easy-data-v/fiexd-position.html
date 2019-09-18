@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绝对定位布局</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../static/lib/bootstrap-4.0.0/css/bootstrap.min.css">
+    <style>
+        .layout-box{
+            height: 100vh;
+            display: flex;
+        }
+        .layout-box>.layout-left-panel{
+            flex: 0 0 300px;
+            border-right: 1px solid #e4e4e4;
+        }
+        .layout-box>.layout-center-panel{
+            flex: auto;
+            display: flex;
+        }
+        .layout-box>.layout-right-panel{
+            flex: 0 0 250px;
+            border-left: 1px solid #e4e4e4;
+        }
+        .demo-panel{
+            flex: auto;
+            margin: 15px;
+            border: 1px solid #e4e4e4;
+            display: flex;
+        }
+        .demo-panel>.app{
+            flex: 1;
+            display: flex;
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .attr-panel{
+            padding: 15px;
+        }
+        .dynamic-layout-item{
+            padding: 8px 15px;
+            border: 1px solid #5cadff;
+            cursor: move;
+        }
+        .widget-box>.widget-item{
+            padding: 8px 15px;
+            border: 1px solid #5cadff;
+            margin-top: -1px;
+            cursor: move;
+        }
+        .selectable{
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .selectable:hover{
+            border: 1px solid #5cadff;
+        }
+
+        .selected{
+            border: 1px solid #2d8cf0;
+        }
+
+        .widget-item,
+        .widget-holder,
+        .resize-dot{
+            -moz-user-select:none;
+            -webkit-user-select:none;
+            user-select:none;
+        }
+        .widget-holder{
+            /*border: 1px solid #2d8cf0;*/
+            /*padding: 15px;*/
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            display: flex;
+            cursor: move;
+        }
+        .widget-holder>.widget-content{
+            flex: auto;
+            border: 1px solid #2d8cf0;
+
+        }
+        .widget-holder>.resize-dot{
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid #17233d;
+            background-color: #fff;
+        }
+        .widget-holder>.resize-dot-top-left{
+            left: -4px;
+            top: -4px;
+            cursor: nw-resize;
+        }
+        .widget-holder>.resize-dot-top-center{
+            left: 50%;
+            top: -4px;
+            margin-left: -4px;
+            cursor: n-resize;
+        }
+        .widget-holder>.resize-dot-top-right{
+            right: -4px;
+            top: -4px;
+            cursor: nesw-resize;
+        }
+
+        .widget-holder>.resize-dot-center-left{
+            left: -4px;
+            top: 50%;
+            margin-top: -4px;
+            cursor: ew-resize;
+        }
+        .widget-holder>.resize-dot-center-right{
+            right: -4px;
+            top: 50%;
+            margin-top: -4px;
+            cursor: ew-resize;
+        }
+        .widget-holder>.resize-dot-bottom-left{
+            left: -4px;
+            bottom: -4px;
+            cursor: nesw-resize;
+        }
+        .widget-holder>.resize-dot-bottom-center{
+            left: 50%;
+            bottom: -4px;
+            margin-left: -4px;
+            cursor: n-resize;
+        }
+        .widget-holder>.resize-dot-bottom-right{
+            right: -4px;
+            bottom: -4px;
+            cursor: nw-resize;
+        }
+    </style>
+</head>
+<body>
+<div style="display: block;padding: 40px;">
+    <div class="widget-holder">
+        <div class="resize-dot resize-dot-top-left" ondragstart="myVue.resizeStartDrag(event)" ondrag="myVue.resizeDragging(event, 'resize-top-left')" draggable="true"></div>
+        <div class="resize-dot resize-dot-top-center" ondragstart="myVue.resizeStartDrag(event)" ondrag="myVue.resizeDragging(event, 'resize-top-center')" draggable="true"></div>
+        <div class="resize-dot resize-dot-top-right" ondragstart="myVue.resizeStartDrag(event)" ondrag="myVue.resizeDragging(event, 'resize-top-right')" draggable="true"></div>
+        <div class="resize-dot resize-dot-center-left" ondragstart="myVue.resizeStartDrag(event)" ondrag="myVue.resizeDragging(event, 'resize-center-left')" draggable="true"></div>
+        <div class="resize-dot resize-dot-center-right" ondragstart="myVue.resizeStartDrag(event)" ondrag="myVue.resizeDragging(event, 'resize-center-right')" draggable="true"></div>
+        <div class="resize-dot resize-dot-bottom-left" ondragstart="myVue.resizeStartDrag(event)" ondrag="myVue.resizeDragging(event, 'resize-bottom-left')" draggable="true"></div>
+        <div class="resize-dot resize-dot-bottom-center" ondragstart="myVue.resizeStartDrag(event)" ondrag="myVue.resizeDragging(event, 'resize-bottom-center')" draggable="true"></div>
+        <div class="resize-dot resize-dot-bottom-right" ondragstart="myVue.resizeStartDrag(event)" ondrag="myVue.resizeDragging(event, 'resize-bottom-right')" draggable="true"></div>
+        <div class="widget-content" ondragstart="myVue.startDrag(event, 'widget')" draggable="true">
+
+        </div>
+    </div>
+</div>
+<div id="app" class="layout-box">
+    <div class="layout-left-panel">
+        <div class="attr-panel">
+            <h4>模块配置</h4>
+            <div class="widget-box">
+                <div class="widget-item" @dragstart="startDrag($event, 'flowTop10')" draggable="true">当前流量top10</div>
+                <div class="widget-item" @dragstart="startDrag($event, 'protocolTop10')" draggable="true">当前协议top10</div>
+                <div class="widget-item" @dragstart="startDrag($event, 'LiveTrendTop')" draggable="true">当前趋势</div>
+                <div class="widget-item" @dragstart="startDrag($event, 'warningList')" draggable="true">预警列表</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout-center-panel">
+        <div class="demo-panel">
+            <div @drop="handleContainerDrop"
+                 ondragover="event.preventDefault()"
+                 class="app" id="container">
+            </div>
+        </div>
+    </div>
+
+    <div class="layout-right-panel">
+        <div class="attr-panel">
+            <h4>属性配置</h4>
+
+        </div>
+    </div>
+</div>
+<script src="../static/lib/jquery-3.3.1.slim.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+<script src="../static/lib/bootstrap-4.0.0/js/bootstrap.bundle.min.js"></script>
+<script src="../static/lib/vue.js"></script>
+<script src="../static/js/fixed-position.js"></script>
+</body>
+</html>
