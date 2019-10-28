@@ -6,6 +6,9 @@ new ClipboardJS('button', {
 var app = new Vue({
   el: '#app',
   data: {
+    donateModal: {
+      visible: false
+    },
     str: '',
     entryHeight: 100,
     clipboardList: [],
@@ -15,6 +18,9 @@ var app = new Vue({
     }
   },
   methods: {
+    handleDonate: function(){
+      this.donateModal.visible = true
+    },
     textareaFocus: function($event){
       $event.target.select()
     },

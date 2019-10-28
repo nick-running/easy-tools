@@ -7,18 +7,20 @@
 	<link rel="stylesheet" href="../static/lib/bootstrap-4.0.0/css/bootstrap.min.css">
 	<style>
 		.free-box{
-			/*width: 200px;*/
+			width: 250px;
 			/*height: 150px;*/
 			border: 10px solid blue;
 			position: absolute;
 			left: 400px;
 			top: 200px;
 			box-shadow: 0 10px 20px rgb(111, 111, 129);
+			z-index: 2;
+			cursor: move;
+			word-break: break-all;
 		}
 		.natural-box{
 			display: inline-block;
 			width: 300px;
-			height: 200px;
 			border: 10px solid red;
 		}
 		.box{
@@ -31,25 +33,67 @@
 		.box>.content{
 			padding: 5px;
 		}
+		.svg{
+			position: absolute;
+			background-color: transparent;
+			left: 0;
+			top: 0;
+			z-index: 0;
+		}
+		.container{
+			position: relative;
+		}
+		.guid-line{
+			stroke: deepskyblue;
+		}
+		.mouse-info{
+			min-width: 120px;
+			position: absolute;
+			border-radius: 4px;
+			background-color: #818182db;
+			padding: 5px 10px;
+			color: #fff;
+			z-index: 1000;
+		}
+		div {
+			-moz-user-select:none;
+			-webkit-user-select:none;
+			user-select:none;
+		}
 	</style>
 </head>
 <body>
 	<div id="app">
+		<svg class="svg" id="svg" width="100%" height="100%">
+			<line class="guid-line" x1="0" :y1="mouse.clientY" x2="100%" :y2="mouse.clientY" stroke-width="1"></line>
+			<line class="guid-line" :x1="mouse.clientX" y1="0" :x2="mouse.clientX" y2="100%" stroke-width="1"></line>
+		</svg>
+		<div class="mouse-info" :style="{left: mouse.clientX+20+'px', top: mouse.clientY+20+'px'}">
+			光标位置：
+			<div>clientX：{{mouse.clientX}}</div>
+			<div>clientY：{{mouse.clientY}}</div>
+		</div>
 		<div class="ruler-x"></div>
 		<div class="ruler-y"></div>
-		<div class="free-box box" id="freeBox">
+		<div @mousedown="handleFreeMousedown" class="free-box box" id="freeBox">
 			<div class="title">自由盒子，点击拖动</div>
 			<div class="content">
 				<div>
 					对应父容器的左边距:
 					<div>
-						obj.offsetLeft：<span>{{freeBox.offsetLeft}}</span>
+						element.offsetLeft：<span>{{freeBox.offsetLeft}}</span>
 					</div>
 				</div>
 				<div>
 					对应父容器的上边距:
 					<div>
-						obj.offsetTop：<span>{{freeBox.offsetTop}}</span>
+						element.offsetTop：<span>{{freeBox.offsetTop}}</span>
+					</div>
+				</div>
+				<div>
+					DOMRect:
+					<div>
+						element.getBoundingClientRect()：<span>{{JSON.stringify(freeBox.DOMRect)}}</span>
 					</div>
 				</div>
 			</div>
@@ -70,13 +114,19 @@
 						<div>
 							对应父容器的左边距:
 							<div>
-								obj.offsetLeft：<span>{{naturalBox.offsetLeft}}</span>
+								element.offsetLeft：<span>{{naturalBox.offsetLeft}}</span>
 							</div>
 						</div>
 						<div>
 							对应父容器的上边距:
 							<div>
-								obj.offsetTop：<span>{{naturalBox.offsetTop}}</span>
+								element.offsetTop：<span>{{naturalBox.offsetTop}}</span>
+							</div>
+						</div>
+						<div>
+							DOMRect:
+							<div>
+								element.getBoundingClientRect()：<span>{{JSON.stringify(naturalBox.DOMRect)}}</span>
 							</div>
 						</div>
 					</div>
@@ -90,43 +140,89 @@
       let app = new Vue({
         el: '#app',
         data: {
+          mouse: {
+            clientX: 0,
+            clientY: 0,
+          },
           freeBox: {
+            drag: false,
             offsetLeft: '',
             offsetTop: '',
+            DOMRect: {},
+            layerX: 0,
+            layerY: 0,
           },
           naturalBox: {
             offsetLeft: '',
             offsetTop: '',
+            DOMRect: {},
           },
           message: 'Hello Vue!'
         },
         methods: {
-			getOffsetDistance(el){
-			  return {
-	            offsetTop: el.offsetTop,
-	            offsetLeft: el.offsetLeft,
-			  }
-			},
+          handleFreeMousedown(ev){
+            console.log('handleFreeMousedown...')
+            console.log('ev is: ', ev)
+            this.freeBox.drag = true
+            this.freeBox.layerX = ev.layerX
+            this.freeBox.layerY = ev.layerY
+          },
+          handleFreeDrag(ev){
+            if(!this.freeBox.drag) return
+			console.log('ev is: ', ev)
+            let clientX = ev.clientX-this.freeBox.layerX
+            let clientY = ev.clientY-this.freeBox.layerY
+            console.log('xx', {
+              clientX,
+              clientY,
+            })
+            let box = document.getElementById('freeBox')
+            box.style.left = clientX+'px'
+            box.style.top = clientY+'px'
+            this.syncFreeBoxDistanceInfo()
+            // box.offsetLeft = clientX
+          },
+          getOffsetDistance(el){
+            console.log('el.clientX is: ', JSON.stringify(el.clientX))
+            return {
+              offsetTop: el.offsetTop,
+              offsetLeft: el.offsetLeft,
+              DOMRect: el.getBoundingClientRect(),
+            }
+          },
           syncFreeBoxDistanceInfo(){
             let box = document.getElementById('freeBox')
             let info = this.getOffsetDistance(box)
 			this.freeBox.offsetLeft = info.offsetLeft
 			this.freeBox.offsetTop = info.offsetTop
+            this.freeBox.DOMRect = info.DOMRect
           },
           syncNaturalBoxDistanceInfo(){
             let box = document.getElementById('naturalBox')
             let info = this.getOffsetDistance(box)
 			this.naturalBox.offsetLeft = info.offsetLeft
 			this.naturalBox.offsetTop = info.offsetTop
+			this.naturalBox.DOMRect = info.DOMRect
+          },
+          mousemove(ev){
+            this.mouse.clientX = ev.clientX
+            this.mouse.clientY = ev.clientY
+            this.handleFreeDrag(ev)
+          },
+          mouseup(){
+            this.freeBox.drag = false
+
           }
         },
         mounted: function () {
           this.syncFreeBoxDistanceInfo()
           this.syncNaturalBoxDistanceInfo()
-          let freeBox = document.getElementById('freeBox')
-          freeBox.addEventListener('ondragstart', ev=>{
-            console.log('ev is: ', ev)
-          })
+          window.addEventListener('mousemove', this.mousemove)
+          window.addEventListener('mouseup', this.mouseup)
+        },
+        beforeDestroy: function () {
+          // window.removeEventListener('resize', this.resize)
+          document.removeEventListener('mouseup', this.mouseup)
         }
       })
       // console.log('freeBox.offsetTop is: ', JSON.stringify(freeBox.offsetTop))
