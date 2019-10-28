@@ -55,6 +55,22 @@
         textarea{
             resize: none;
         }
+        .donate-box{
+	        position: fixed;
+	        right: 0;
+	        top: 50%;
+	        background-color: deepskyblue;
+	        border-radius: 4px 0 0 4px;
+	        width: 30px;
+	        margin-top: -58px;
+	        padding: 10px 0;
+	        text-align: center;
+	        color: white;
+	        cursor: pointer;
+        }
+        .donate-box:hover{
+	        background-color: #007bff;
+        }
     </style>
 
     <script>
@@ -143,7 +159,7 @@
 					        </button>
 				        </div>
 				        <div class="modal-body">
-					        <img src="/static/images/donate.jpg" style="width: 100%">
+					        <img src="./static/images/donate.jpg" style="width: 100%">
 				        </div>
 				        <div class="modal-footer">
 					        <button @click="donateModal.visible=false" type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
